@@ -1,0 +1,22 @@
+extends ../shared/template
+block content
+  h1 task new content
+  form(action='/tasks', method='POST')
+    .form-group
+      label Name:
+      input.form-control(type='text' name='name', placeholder='Task Name' )
+    .form-group
+      label Due Date:
+      input.form-control(type='date' name='dueDate', placeholder='Due Date')
+    .form-group
+      label Priority:
+      select.form-control(name='priority')
+        each priority in priorities
+          option(value=priority.value) #{priority.name}
+    .form-group
+      label Category:
+      select.form-control(name='category')
+        each category in categories
+          option(value=category.name) #{category.name}
+    .form-group
+      button.btn.btn-primary(type='submit') Submit
