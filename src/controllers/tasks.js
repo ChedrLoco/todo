@@ -30,10 +30,8 @@ router.get('/new', (req, res) => {
 
 router.post('/:x/complete', (req, res) => {
   Task.findOne(({ _id: req.params.x }), (err, task) => {
-    task.isComplete = true;
-    console.log('tas', task);
-    Task.findOneAndUpdate({ _id: req.params.x }, task, { upsert: true }, (log2) => {
-      console.log(log2);
+    task.isComplete = !task.isComplete;
+    Task.findOneAndUpdate({ _id: req.params.x }, task, { upsert: true }, () => {
       res.redirect('/tasks');
     });
   });
@@ -53,17 +51,20 @@ router.get('/:x/edit', (req, res) => {
   //   res.render('tasks/new', { task });
   // });
 
-    Task.findById(({ _id: req.params.x }), (err, task) => {
-      console.log('err', err);
-      console.log('task', task);
-        const categories = Category.find();
-        const priorities = Priority.find();
-      res.render('tasks/new', { task, categories, priorities });
-    });
+  Task.findOne(({ _id: req.params.x.toString() }), (err, task) => {
+    console.log('req.params', req.params);
+    console.log('err', err);
+    console.log('task', task);
+    const categories = Category.find();
+    const priorities = Priority.find();
+    res.render('tasks/new', { task, categories, priorities });
+  });
 });
 
 router.post('/:x/delete', (req, res) => {
-  res.redirect('/tasks');
+  Task.remove(({ _id: req.params.x }), () => {
+    res.redirect('/tasks');
+  });
 });
 
 router.post('/:x', (req, res) => {

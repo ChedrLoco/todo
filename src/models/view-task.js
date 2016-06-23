@@ -1,3 +1,4 @@
+/* eslint-disable new-cap, array-callback-return, no-param-reassign, no-underscore-dangle */
 function ViewTask(task, priorities) {
   this.id = task._id;
   this.name = task.name;

@@ -2,9 +2,7 @@ extends ../shared/template
 block content
   h1 Tasks
   .row.tableHead
-    .col-xs-1
-      label Complete
-    .col-xs-1
+    .col-xs-2
       label Task Name
     .col-xs-2
       label Due Date
@@ -12,27 +10,33 @@ block content
       label Priority
     .col-xs-2
       label Category
-    .col-xs-2
+    .col-xs-1
       label Is Complete
     .col-xs-2
       label Creation Date
+    .col-xs-1
+
   each task in viewTasks
     .row(style='background-color:' + task.priority.color)
-      .col-xs-1
-        form(action='/tasks/'+task.id+'/complete', method='post')
-          button.btn.btn-primary(type='submit') Comp
-      .col-xs-1
-        a(href='/tasks/:' + task.id + '/edit')= task.name
+      .col-xs-2
+        a(href='/tasks/:'+task.id+'/edit')= task.name
       .col-xs-2
         label= task.dueDate
       .col-xs-2
         label= task.priority.name
       .col-xs-2
         label= task.category
-      .col-xs-2
+      .col-xs-1
+        form(action='/tasks/'+task.id+'/complete', method='post')
           if task.isComplete
-            i.fa.fa-check-square-o.fa-fw
+            button.btn(type='submit')
+              i.fa.fa-check-square-o.fa-fw
           else
-            i.fa.fa-square-o.fa-fw
+            button.btn(type='submit')
+              i.fa.fa-square-o.fa-fw
       .col-xs-2
         label= task.createdAt
+      .col-xs-1
+        form(action='/tasks/'+task.id+'/delete', method='post')
+          button.btn(type='submit')
+            i.fa.fa-trash.fa-fw
